@@ -2,6 +2,7 @@ import React from "react";
 import { Image, Text, StyleSheet, View } from "react-native";
 import { Colors } from "../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function MealItem({ meal }) {
   return (
@@ -59,9 +60,10 @@ export default function MealItem({ meal }) {
             <MaterialCommunityIcons name="cow" size={20} color={Colors.Beige} />
           )}
         </View>
-        {meal.ingredients.map((ingredient) => (
-          <Text style={styles.ingredients}>{ingredient}</Text>
-        ))}
+        <View style={styles.timeContainer}>
+          <Text style={styles.time}>{meal.duration} min</Text>
+          <AntDesign name="clockcircle" size={20} color="white" />
+        </View>
       </View>
     </View>
   );
@@ -96,8 +98,9 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     textAlign: "center",
   },
-  ingredients: {
-    marginVertical: 2,
+  timeContainer: { flexDirection: "row", justifyContent: "center" },
+  time: {
+    marginHorizontal: 10,
     fontSize: 16,
     color: "white",
   },

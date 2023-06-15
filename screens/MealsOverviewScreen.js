@@ -1,16 +1,27 @@
-import { useRoute } from "@react-navigation/native";
-import React from "react";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import React, { useLayoutEffect } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { MEALS } from "../data/dummy-data";
+import { MEALS, CATEGORIES } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
 import { Colors } from "../constants/colors";
 
 export default function MealsOverviewScreen() {
   const route = useRoute();
+  const navigation = useNavigation();
 
   const Meals = MEALS.filter((item) =>
     item.categoryIds.includes(route.params.id)
   );
+
+  useLayoutEffect(() => {
+    const categoryTitle = CATEGORIES.find(
+      (category) => category.id === route.params.id
+    ).title;
+
+    navigation.setOptions({
+      title: categoryTitle,
+    });
+  }, [navigation]);
 
   function renderMeal(itemData) {
     return (
