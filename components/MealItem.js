@@ -1,71 +1,80 @@
 import React from "react";
-import { Image, Text, StyleSheet, View } from "react-native";
+import { Image, Text, StyleSheet, View, Pressable } from "react-native";
 import { Colors } from "../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MealItem({ meal }) {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: meal.imageUrl }} />
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{meal.title}</Text>
-        <View style={styles.iconsContainer}>
-          {meal.isGlutenFree ? (
-            <MaterialCommunityIcons
-              name="bread-slice-outline"
-              size={20}
-              color={Colors.Beige}
-            />
-          ) : (
-            <MaterialCommunityIcons
-              name="bread-slice"
-              size={20}
-              color={Colors.Beige}
-            />
-          )}
-          {meal.isVegan ? (
-            <MaterialCommunityIcons
-              name="food-apple"
-              size={20}
-              color={Colors.Beige}
-            />
-          ) : (
-            <MaterialCommunityIcons
-              name="food-apple-outline"
-              size={20}
-              color={Colors.Beige}
-            />
-          )}
-          {meal.isVegetarian ? (
-            <MaterialCommunityIcons
-              name="food-drumstick-outline"
-              size={20}
-              color={Colors.Beige}
-            />
-          ) : (
-            <MaterialCommunityIcons
-              name="food-drumstick"
-              size={20}
-              color={Colors.Beige}
-            />
-          )}
-          {meal.isLactoseFree ? (
-            <MaterialCommunityIcons
-              name="cow-off"
-              size={20}
-              color={Colors.Beige}
-            />
-          ) : (
-            <MaterialCommunityIcons name="cow" size={20} color={Colors.Beige} />
-          )}
-        </View>
-        <View style={styles.timeContainer}>
-          <Text style={styles.time}>{meal.duration} min</Text>
-          <AntDesign name="clockcircle" size={20} color="white" />
+    <Pressable onPress={() => navigation.navigate("MealDetails", { meal })}>
+      <View style={styles.container}>
+        <Image style={styles.image} source={{ uri: meal.imageUrl }} />
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{meal.title}</Text>
+          <View style={styles.iconsContainer}>
+            {meal.isGlutenFree ? (
+              <MaterialCommunityIcons
+                name="bread-slice-outline"
+                size={20}
+                color={Colors.Beige}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="bread-slice"
+                size={20}
+                color={Colors.Beige}
+              />
+            )}
+            {meal.isVegan ? (
+              <MaterialCommunityIcons
+                name="food-apple"
+                size={20}
+                color={Colors.Beige}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="food-apple-outline"
+                size={20}
+                color={Colors.Beige}
+              />
+            )}
+            {meal.isVegetarian ? (
+              <MaterialCommunityIcons
+                name="food-drumstick-outline"
+                size={20}
+                color={Colors.Beige}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="food-drumstick"
+                size={20}
+                color={Colors.Beige}
+              />
+            )}
+            {meal.isLactoseFree ? (
+              <MaterialCommunityIcons
+                name="cow-off"
+                size={20}
+                color={Colors.Beige}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="cow"
+                size={20}
+                color={Colors.Beige}
+              />
+            )}
+          </View>
+          <View style={styles.timeContainer}>
+            <Text style={styles.time}>{meal.duration} min</Text>
+            <AntDesign name="clockcircle" size={20} color="white" />
+          </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
