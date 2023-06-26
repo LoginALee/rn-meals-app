@@ -1,5 +1,5 @@
-import { useRoute } from "@react-navigation/native";
-import React from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { Colors } from "../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";

@@ -9,7 +9,7 @@ export default function MealItem({ meal }) {
   const navigation = useNavigation();
 
   return (
-    <Pressable onPress={() => navigation.navigate("MealDetails", { meal })}>
+    <Pressable onPress={() => navigation.navigate("Meal Details", { meal })}>
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: meal.imageUrl }} />
         <View style={styles.textContainer}>
