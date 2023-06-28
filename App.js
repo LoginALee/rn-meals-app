@@ -6,12 +6,12 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Colors } from "./constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import FavoriteIcon from "./components/FavoriteIcon";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 import MealDetailsScreen from "./screens/MealDetailsScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
-import { FavoritesProvider } from "./store/FavoritesContext";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -79,9 +79,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="dark" />
-      <FavoritesProvider>
+      <Provider store={store}>
         <MyStack />
-      </FavoritesProvider>
+      </Provider>
     </NavigationContainer>
   );
 }

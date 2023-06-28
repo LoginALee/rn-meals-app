@@ -1,24 +1,29 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { Colors } from "../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import FavoriteIcon from "./FavoriteIcon";
-import { FavoritesContext } from "../store/FavoritesContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../store/slices/FavoritesSlice";
 
 export default function MealDetails() {
   const route = useRoute();
   const navigation = useNavigation();
-  const FavoritesCtx = useContext(FavoritesContext);
-  const isFavorite = FavoritesCtx.favoritesIds.includes(route.params.meal.id);
+  const dispatch = useDispatch();
+  const favoritesIds = useSelector((state) => state.favorites.favoritesIds);
+  const isFavorite = favoritesIds.includes(route.params.meal.id);
 
   function onAddFavorite() {
-    FavoritesCtx.addToFavorites(route.params.meal.id);
+    dispatch(addToFavorites({ id: route.params.meal.id }));
   }
 
   function onRemoveFavorite() {
-    FavoritesCtx.removeFromFavorites(route.params.meal.id);
+    dispatch(removeFromFavorites({ id: route.params.meal.id }));
   }
 
   useLayoutEffect(() => {
@@ -31,7 +36,7 @@ export default function MealDetails() {
         />
       ),
     });
-  }, [navigation, FavoritesCtx, onAddFavorite, onRemoveFavorite, isFavorite]);
+  }, [navigation, favoritesIds, onAddFavorite, onRemoveFavorite, isFavorite]);
 
   return (
     <View style={styles.container}>
