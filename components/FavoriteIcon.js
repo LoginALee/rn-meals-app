@@ -5,23 +5,28 @@ import {
   Transitioning,
   TransitioningView,
 } from "react-native-reanimated";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Colors } from "../constants/colors";
 
-export default function Icon({
-  Icon,
-  TransitionIcon,
-  onPress,
+export default function FavoriteIcon({
+  onAddFavorite,
+  onRemoveFavorite,
+  isFavorite = false,
   style,
-  transitionIconStyle,
 }) {
   const ref = useRef(null);
-  const [toggled, setToggled] = useState(false);
 
-  const toggle = () => setToggled(!toggled);
+  const TransitionIcon = () => (
+    <MaterialIcons name="favorite" size={24} color={Colors.Yellow} />
+  );
+
+  const Icon = () => (
+    <MaterialIcons name="favorite-border" size={24} color={Colors.Yellow} />
+  );
 
   const onPressFunc = () => {
-    toggle();
     ref.current?.animateNextTransition();
-    onPress && onPress();
+    isFavorite ? onRemoveFavorite() : onAddFavorite();
   };
 
   const transition = (
@@ -43,10 +48,10 @@ export default function Icon({
   return (
     <Pressable onPress={onPressFunc}>
       <Transitioning.View ref={ref} transition={transition}>
-        {!toggled ? (
+        {!isFavorite ? (
           <Icon style={style} />
         ) : (
-          <TransitionIcon style={transitionIconStyle} />
+          <TransitionIcon style={style} />
         )}
       </Transitioning.View>
     </Pressable>

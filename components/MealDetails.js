@@ -1,12 +1,37 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { Colors } from "../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import FavoriteIcon from "./FavoriteIcon";
+import { FavoritesContext } from "../store/FavoritesContext";
 
 export default function MealDetails() {
   const route = useRoute();
+  const navigation = useNavigation();
+  const FavoritesCtx = useContext(FavoritesContext);
+  const isFavorite = FavoritesCtx.favoritesIds.includes(route.params.meal.id);
+
+  function onAddFavorite() {
+    FavoritesCtx.addToFavorites(route.params.meal.id);
+  }
+
+  function onRemoveFavorite() {
+    FavoritesCtx.removeFromFavorites(route.params.meal.id);
+  }
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <FavoriteIcon
+          isFavorite={isFavorite}
+          onAddFavorite={onAddFavorite}
+          onRemoveFavorite={onRemoveFavorite}
+        />
+      ),
+    });
+  }, [navigation, FavoritesCtx, onAddFavorite, onRemoveFavorite, isFavorite]);
 
   return (
     <View style={styles.container}>
@@ -73,7 +98,9 @@ export default function MealDetails() {
       <View style={styles.ingredientsContainer}>
         <ScrollView>
           {route.params.meal.ingredients.map((ingredient) => (
-            <Text style={styles.ingredient}>{ingredient}</Text>
+            <Text key={ingredient} style={styles.ingredient}>
+              {ingredient}
+            </Text>
           ))}
         </ScrollView>
       </View>
@@ -81,7 +108,7 @@ export default function MealDetails() {
       <View style={styles.stepsContainer}>
         <ScrollView>
           {route.params.meal.steps.map((step, index) => (
-            <Text style={styles.step}>
+            <Text style={styles.step} key={step}>
               {index + 1}.- {step}
             </Text>
           ))}

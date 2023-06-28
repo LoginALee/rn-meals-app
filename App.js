@@ -2,16 +2,16 @@ import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { MaterialIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Colors } from "./constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import Icon from "./components/Icon";
+import FavoriteIcon from "./components/FavoriteIcon";
 import MealDetailsScreen from "./screens/MealDetailsScreen";
 import MealsOverviewScreen from "./screens/MealsOverviewScreen";
 import CategoriesScreen from "./screens/CategoriesScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
+import { FavoritesProvider } from "./store/FavoritesContext";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -33,30 +33,7 @@ function MyStack() {
         }}
       />
       <Stack.Screen name="MealsOverview" component={MealsOverviewScreen} />
-      <Stack.Screen
-        name="Meal Details"
-        component={MealDetailsScreen}
-        options={{
-          headerRight: () => (
-            <Icon
-              TransitionIcon={() => (
-                <MaterialIcons
-                  name="favorite"
-                  size={24}
-                  color={Colors.Yellow}
-                />
-              )}
-              Icon={() => (
-                <MaterialIcons
-                  name="favorite-border"
-                  size={24}
-                  color={Colors.Yellow}
-                />
-              )}
-            />
-          ),
-        }}
-      />
+      <Stack.Screen name="Meal Details" component={MealDetailsScreen} />
     </Stack.Navigator>
   );
 }
@@ -102,7 +79,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="dark" />
-      <MyStack />
+      <FavoritesProvider>
+        <MyStack />
+      </FavoritesProvider>
     </NavigationContainer>
   );
 }
